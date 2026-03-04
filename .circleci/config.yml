@@ -1,5 +1,17 @@
 version: 2.1
 jobs:
+  test:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - run:
+          name: Install uv
+          command: pip install uv
+      - run:
+          name: Run tests
+          command: uv run pytest tests/
+
   build_wheels:
     docker:
       - image: cimg/python:3.12
@@ -59,6 +71,7 @@ jobs:
 workflows:
   build_test_publish:
     jobs:
+      - test
       - build_wheels
       - test_pypi_publish:
           requires:
@@ -70,13 +83,20 @@ workflows:
 
   build_tag_publish:
     jobs:
-      - build_wheels:
+      - test:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /[0-9].+/
-
+      - build_wheels:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /[0-9].+/
       - pypi_publish:
           requires:
             - build_wheels
