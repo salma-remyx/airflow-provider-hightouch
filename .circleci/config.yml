@@ -73,6 +73,15 @@ workflows:
   build:
     jobs:
       - test
+      - build_wheels:
+          requires:
+            - test
+      - test_pypi_publish:
+          requires:
+            - build_wheels
+          filters:
+            branches:
+              only: main
 
   publish:
     jobs:
