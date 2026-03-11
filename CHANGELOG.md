@@ -3,7 +3,7 @@
 ### BREAKING:
 
 * Drops support for Apache Airflow 2.x. Requires Airflow 3.0.0+.
-* Requires Python 3.9+.
+* Requires Python 3.10+.
 * Requires `apache-airflow-providers-http` as an explicit dependency (bundled in Airflow 2, separate in Airflow 3).
 
 ### Changes:

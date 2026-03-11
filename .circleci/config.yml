@@ -45,9 +45,7 @@ jobs:
           command: pip install uv
       - run:
           name: Publish to TestPyPI
-          command: uv publish --publish-url https://test.pypi.org/legacy/
-          environment:
-            UV_PUBLISH_TOKEN: $PYPY_TEST_TOKEN
+          command: UV_PUBLISH_TOKEN=$PYPY_TEST_TOKEN uv publish --publish-url https://test.pypi.org/legacy/
 
   pypi_publish:
     docker:
@@ -69,9 +67,7 @@ jobs:
             fi
       - run:
           name: Publish to PyPI
-          command: uv publish
-          environment:
-            UV_PUBLISH_TOKEN: $PYPY_TOKEN
+          command: UV_PUBLISH_TOKEN=$PYPY_TOKEN uv publish
 
 workflows:
   build:
